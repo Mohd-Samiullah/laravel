@@ -15,7 +15,7 @@ class Check
      */
     public function handle(Request $request, Closure $next): Response
     {
-        echo "i am checking middleware one ";
+        echo "welcome to check";
         return $next($request);
     }
 }

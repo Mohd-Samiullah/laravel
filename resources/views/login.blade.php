@@ -29,12 +29,12 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" id="username"
-                                class="form-control @error('username') is-invalid @enderror"
-                                value="{{ old('username') }}" placeholder="Enter username">
+                            <label for="email" class="form-label">email</label>
+                            <input type="email" name="email" id="email"
+                                class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
+                                placeholder="Enter your email">
 
-                            @error('username')
+                            @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -52,6 +52,12 @@
 
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
+                    <div class="text-center mt-3">
+                        <small>if you dont have an account?
+                            <a href="{{ route('signup') }}"
+                                class="text-decoration-none fw-semibold text-primary">signup</a>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>

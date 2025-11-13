@@ -17,27 +17,26 @@
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#sendBtn').click(function() {
-        $.ajax({
-            url: "{{ route('ajaxSend') }}", // ✅ Correct way to call route in Blade
-            type: "POST", // or "POST"
-            data: {
-                name: "Samiullah", // optional example data
-                platform: "youtube",
-                // _token: "{{ csrf_token() }}" // required if POST
-            },
-            success: function(response) {
-                console.log(response);
-                alert('Data sent successfully!');
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-            }
+    $(document).ready(function() {
+        $('#sendBtn').click(function() {
+            $.ajax({
+                url: "{{ route('ajaxSend') }}", // ✅ Correct way to call route in Blade
+                type: "POST", // or "POST"
+                data: {
+                    name: "Samiullah", // optional example data
+                    platform: "youtube",
+                    // _token: "{{ csrf_token() }}" // required if POST
+                },
+                success: function(response) {
+                    console.log(response);
+                    alert('Data sent successfully!');
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
     });
-});
 </script>
-
 
 </html>

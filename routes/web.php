@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxForm;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,7 @@ Route::get('/form', [RegisterController::class, 'index']);
 
 Route::post('/register', [RegisterController::class, 'register']);
 
-Route::get('/view', [RegisterController::class, 'fetchdata']);
+Route::get('/view', [RegisterController::class, 'fetchdata'])->middleware('userAuthenticate');
 
 Route::get('/edit/{empid}', [RegisterController::class, 'updatedata']);
 
@@ -55,16 +56,41 @@ Route::get('delete-session', function (Request $request) {
     $request->session()->flush();
 });
 
-Route::get('/log', [AuthController::class, 'index'])->middleware('guest');
+
+
+
+
+
+
+
+
+Route::get('/log', [AuthController::class, 'index'])->name('log')->middleware('guest');
 Route::post('login', [AuthController::class, 'auth'])->middleware('guest');
-Route::get('register', [AuthController::class, 'register']);
+Route::post('registration', [AuthController::class, 'registration'])->name('registration');
+Route::get('signup', [AuthController::class, 'signup'])->name('signup')->middleware('guest');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('userAuthenticate');
 Route::get('logout', [DashboardController::class, 'logout']);
 
 
 
-// ajax 
+
+
+
+
+
 
 Route::get('ajax', [DemoController::class, 'ajaxSend']);
 Route::post('ajax-send', [DemoController::class, 'ajaxGet'])->name('ajaxSend');
+
+
+// Route::get('ajaxform', [AjaxForm::class, 'index']);
+// Route::post('ajaxinsert', [AjaxForm::class, 'insert'])->name('ajaxinsert');
+// Route::get('ajaxform', [AjaxForm::class, 'fetch'])->name('ajaxfetch');
+
+Route::get('ajaxform', [AjaxForm::class, 'index'])->name('ajaxform');
+Route::post('ajaxinsert', [AjaxForm::class, 'insert'])->name('ajaxinsert');
+Route::get('ajaxfetch', [AjaxForm::class, 'fetch'])->name('ajaxfetch');
+Route::get('ajaxedit/{id}', [AjaxForm::class, 'edit'])->name('ajaxedit');
+Route::put('ajaxupdate/{id}', [AjaxForm::class, 'update'])->name('ajaxupdate');
+Route::delete('ajaxdelete/{id}', [AjaxForm::class, 'delete'])->name('ajaxdelete');

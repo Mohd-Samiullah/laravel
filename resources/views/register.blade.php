@@ -10,34 +10,34 @@
     <!-- Quill.js for rich text editor -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
-    .custom-editor {
-        height: 150px;
-        margin-bottom: 50px;
-    }
+        .custom-editor {
+            height: 150px;
+            margin-bottom: 50px;
+        }
 
-    .ql-toolbar.ql-snow {
-        border-top: 1px solid #ccc;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        border-bottom: none;
-    }
+        .ql-toolbar.ql-snow {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: none;
+        }
 
-    .ql-container.ql-snow {
-        border: 1px solid #ccc;
-        border-top: none;
-    }
+        .ql-container.ql-snow {
+            border: 1px solid #ccc;
+            border-top: none;
+        }
 
-    .editor-wrapper {
-        border-radius: 0.375rem;
-        overflow: hidden;
-    }
+        .editor-wrapper {
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
 
-    .character-count {
-        font-size: 0.875rem;
-        color: #6c757d;
-        text-align: right;
-        margin-top: 5px;
-    }
+        .character-count {
+            font-size: 0.875rem;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -202,69 +202,69 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Quill editor
-        const quill = new Quill('#addressEditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline'],
-                    [{
-                        'list': 'ordered'
-                    }, {
-                        'list': 'bullet'
-                    }],
-                    ['link', 'clean']
-                ]
-            },
-            placeholder: 'Enter your address with formatting...',
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Quill editor
+            const quill = new Quill('#addressEditor', {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{
+                            'list': 'ordered'
+                        }, {
+                            'list': 'bullet'
+                        }],
+                        ['link', 'clean']
+                    ]
+                },
+                placeholder: 'Enter your address with formatting...',
+            });
 
-        // Update character count
-        function updateCharacterCount() {
-            const text = quill.getText().trim();
-            const charCount = text.length;
-            document.getElementById('charCount').textContent = charCount;
-        }
-
-        // Update hidden input with HTML content before form submission
-        document.getElementById('employeeForm').addEventListener('submit', function(e) {
-            const editorContent = quill.root.innerHTML;
-            const plainText = quill.getText().trim();
-
-            // Validate that address is not empty
-            if (plainText.length === 0) {
-                e.preventDefault();
-                alert('Please enter an address');
-                return;
+            // Update character count
+            function updateCharacterCount() {
+                const text = quill.getText().trim();
+                const charCount = text.length;
+                document.getElementById('charCount').textContent = charCount;
             }
 
-            document.getElementById('addressInput').value = editorContent;
+            // Update hidden input with HTML content before form submission
+            document.getElementById('employeeForm').addEventListener('submit', function(e) {
+                const editorContent = quill.root.innerHTML;
+                const plainText = quill.getText().trim();
+
+                // Validate that address is not empty
+                if (plainText.length === 0) {
+                    e.preventDefault();
+                    alert('Please enter an address');
+                    return;
+                }
+
+                document.getElementById('addressInput').value = editorContent;
+            });
+
+            // Set initial content if editing
+            const initialAddress = `{!! $employee->address ?? '' !!}`;
+            if (initialAddress) {
+                quill.root.innerHTML = initialAddress;
+            }
+
+            // Update character count on editor changes
+            quill.on('text-change', updateCharacterCount);
+
+            // Initialize character count
+            updateCharacterCount();
+
+            // Auto-show success modals
+            @if(session('insert_success'))
+            const insertModal = new bootstrap.Modal(document.getElementById('insertSuccessModal'));
+            insertModal.show();
+            @endif
+
+            @if(session('update_success'))
+            const updateModal = new bootstrap.Modal(document.getElementById('updateSuccessModal'));
+            updateModal.show();
+            @endif
         });
-
-        // Set initial content if editing
-        const initialAddress = `{!! $employee->address ?? '' !!}`;
-        if (initialAddress) {
-            quill.root.innerHTML = initialAddress;
-        }
-
-        // Update character count on editor changes
-        quill.on('text-change', updateCharacterCount);
-
-        // Initialize character count
-        updateCharacterCount();
-
-        // Auto-show success modals
-        @if(session('insert_success'))
-        const insertModal = new bootstrap.Modal(document.getElementById('insertSuccessModal'));
-        insertModal.show();
-        @endif
-
-        @if(session('update_success'))
-        const updateModal = new bootstrap.Modal(document.getElementById('updateSuccessModal'));
-        updateModal.show();
-        @endif
-    });
     </script>
 </body>
 

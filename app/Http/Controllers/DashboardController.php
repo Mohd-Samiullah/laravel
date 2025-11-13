@@ -15,6 +15,7 @@ class DashboardController extends Controller
     public function logout()
     {
         Session::flush();
-        redirect('/log');
+        // redirect('/log');
+        return redirect('/log');
     }
 }

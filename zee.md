@@ -7,10 +7,11 @@
     <title>Records</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
     <style>
         .text-muted {
             display: none !important;
@@ -19,150 +20,12 @@
         .search-container {
             margin-bottom: 40px;
         }
-
-        .custom-border {
-            border: 2px solid black !important;
-        }
-
-        .dt-layout-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-            padding: 10px 0;
-            font-family: "Segoe UI", Roboto, sans-serif;
-        }
-
-        .dt-layout-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dt-length {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #444;
-        }
-
-        .dt-length select.dt-input {
-            padding: 6px 10px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            background-color: #fff;
-            color: #333;
-            font-size: 14px;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .dt-length select.dt-input:hover,
-        .dt-length select.dt-input:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 6px rgba(13, 110, 253, 0.3);
-            outline: none;
-        }
-
-        .dt-search {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #444;
-        }
-
-        .dt-search input.dt-input {
-            padding: 6px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #333;
-            background-color: #fff;
-            transition: all 0.25s ease-in-out;
-            width: 220px;
-        }
-
-        .dt-search input.dt-input::placeholder {
-            color: #888;
-        }
-
-        .dt-search input.dt-input:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 6px rgba(13, 110, 253, 0.3);
-            outline: none;
-        }
-
-        .btn-action {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        td.date-col {
-            white-space: nowrap;
-        }
-
-        .dt-paging {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            gap: 5px;
-            font-family: "Segoe UI", Roboto, sans-serif;
-        }
-
-        .dt-paging-button {
-            background-color: #f8f9fa;
-            border: 1px solid #d1d5db;
-            color: #0d6efd;
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.25s ease-in-out;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-        }
-
-        .dt-paging-button:hover {
-            background-color: #0d6efd;
-            color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .dt-paging-button.current {
-            background-color: #0d6efd;
-            color: #fff;
-            border-color: #0d6efd;
-            box-shadow: 0 3px 6px rgba(13, 110, 253, 0.4);
-            font-weight: 600;
-            transform: translateY(-1px);
-        }
-
-        .dt-paging-button.disabled,
-        .dt-paging-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background-color: #e9ecef;
-            color: #adb5bd;
-            border-color: #dee2e6;
-            box-shadow: none;
-        }
-
-        .dt-paging nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
+        <!-- Success Alert for Insert -->
         @if(session('insert_success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Success!</strong> Data has been inserted successfully.
@@ -170,6 +33,7 @@
         </div>
         @endif
 
+        <!-- Success Alert for Update -->
         @if(session('update_success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Success!</strong> Data has been updated successfully.
@@ -177,28 +41,28 @@
         </div>
         @endif
 
+        <!-- Search and Add buttons moved outside the table -->
         <div class="d-flex justify-content-between align-items-center search-container">
             <form action="{{url('/view')}}" method="GET" class="d-flex">
-                <input type="search" name="search" class="form-control custom-border me-2"
-                    placeholder="Search the records">
+                <input type="search" name="search" class="form-control me-2" placeholder="Search the records">
                 <input type="submit" class="btn btn-success" value="Search">
             </form>
             <div>
                 <a href="{{url('/form')}}" class="btn btn-info">Add</a>
-                <a href="{{url('/logout')}}" class="btn btn-danger">Logout</a>
+                <a href="{{url('/logout')}}" class="btn btn-danger">logout</a>
             </div>
         </div>
 
-        <table class="table table-bordered" id="myTable">
-            <thead class="table-info">
+        <table class="table" id="myTable">
+            <thead>
                 <tr>
-                    <th class="text-center">empid</th>
-                    <th class="text-center">fullname</th>
-                    <th class="text-center">email</th>
-                    <th class="text-center">address</th>
-                    <th class="text-center">date</th>
-                    <th class="text-center">status</th>
-                    <th class="text-center">Action</th>
+                    <th>empid</th>
+                    <th>fullname</th>
+                    <th>email</th>
+                    <th>address</th>
+                    <th>date</th>
+                    <th>status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -208,7 +72,7 @@
                     <td>{{$val['fullname']}}</td>
                     <td>{{$val['email']}}</td>
                     <td>{!! $val['address'] !!}</td>
-                    <td class="date-col">{{$val['date']}}</td>
+                    <td>{{$val['date']}}</td>
                     <td>
                         @if($val['status']=='1')
                         <span class="badge bg-success">Active</span>
@@ -217,15 +81,11 @@
                         @endif
                     </td>
                     <td>
-                        <div class="btn-action">
-                            <a href="{{ url('edit', ['empid' => $val['id']]) }}" class="btn btn-sm btn-success">
-                                Edit
-                            </a>
-                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal" data-empid="{{ $val['id'] }}">
-                                Delete
-                            </button>
-                        </div>
+                        <a href="{{ url('edit', ['empid' => $val['id']]) }}" class="btn btn-sm btn-success m-1">Edit</a>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal" data-empid="{{ $val['id'] }}">
+                            Delete
+                        </button>
                     </td>
                 </tr>
                 @endforeach
@@ -252,7 +112,7 @@
         </div>
     </div>
 
-    <!-- Insert Success Modal (No Icon) -->
+    <!-- Success Modal for Data Insert -->
     <div class="modal fade" id="insertSuccessModal" tabindex="-1" aria-labelledby="insertSuccessModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -263,6 +123,9 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
+                    </div>
                     <h4>Data Inserted Successfully!</h4>
                     <p class="text-muted">The new employee record has been added to the database.</p>
                 </div>
@@ -273,7 +136,7 @@
         </div>
     </div>
 
-    <!-- Update Success Modal (No Icon) -->
+    <!-- Success Modal for Data Update -->
     <div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -284,6 +147,9 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
+                    </div>
                     <h4>Data Updated Successfully!</h4>
                     <p class="text-muted">The employee record has been updated in the database.</p>
                 </div>
@@ -298,21 +164,11 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable({
+                // Optional: Customize DataTable options
                 "pageLength": 5,
                 "lengthMenu": [
                     [5, 10, 25, 50, -1],
                     [5, 10, 25, 50, "All"]
-                ],
-                "language": {
-                    "paginate": {
-                        "previous": "Previous",
-                        "next": "Next"
-                    }
-                },
-                "columnDefs": [{
-                        "targets": 4,
-                        "className": "date-col"
-                    } // Ensures date column has nowrap
                 ]
             });
         });
@@ -333,6 +189,7 @@
                 confirmDeleteBtn.href = "{{ url('del') }}/" + empid;
             });
 
+            // Auto-show success modals based on session data
             @if(session('insert_success'))
             const insertModal = new bootstrap.Modal(document.getElementById('insertSuccessModal'));
             insertModal.show();

@@ -47,7 +47,7 @@ class RegisterController extends Controller
         if ($search) {
             $employee = Employee::where('fullname', 'LIKE', "%$search%")->orWhere('email', 'LIKE', "%$search%")->paginate(5);
         } else {
-            $employee = Employee::paginate(5);
+            $employee = Employee::all();
         }
         $data = compact('employee');
         return view('fetchdata')->with($data);
